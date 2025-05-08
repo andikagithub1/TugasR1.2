@@ -35,7 +35,7 @@ Agar proyek ini bisa berjalan lancar di komputermu, pastikan kamu sudah memiliki
 ### 1. **Clone Repositori**
 Buka terminal/command prompt dan jalankan:
 ```bash
-git clone https://github.com/andikagithub1/tugasR.git
+git clone https://github.com/andikagithub1/tugasR1.2.git
 ```
 
 ### 2. **Instal Dependensi (Jika Ada)**
