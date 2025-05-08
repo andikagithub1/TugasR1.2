@@ -1,3 +1,5 @@
+---
+
 # 🚀 **TugasR1.2 – Proyek Android yang Menyenangkan!** 🎉
 
 Halo teman-teman developer 👋! Selamat datang di **TugasR1.2**, sebuah proyek Android hasil kerja keras (dan juga sedikit keringat 😅) yang dibuat menggunakan **Android Studio**.
@@ -124,7 +126,7 @@ Semoga proyek ini bisa menjadi langkah awalmu dalam dunia pengembangan aplikasi 
 Kalau ada pertanyaan, jangan ragu untuk hubungi saya lewat:
 
 📧 Email: andikaini54@gmail.com  
-📱 Instagram: @kryoo_02  
+📱 Instagram: [@kryo_002](https://www.instagram.com/kryo_002/)  
 
 > Sekali lagi, jangan lupa istirahat dan tetap semangat dalam belajar coding! 💻✨
 
@@ -140,3 +142,20 @@ Jika kamu merasa README ini kurang lengkap atau ada bug, jangan ragu untuk membe
 --- 
 
 Ingin versi PDF, Markdown, atau HTML dari README ini? Tinggal minta, saya bantu buatkan! 😉
+
+---
+
+## 📥 Cara Menggunakan Versi Ini:
+
+1. Salin seluruh teks di atas ke file bernama `README.md`.
+2. Commit dan push ke repo GitHub kamu.
+3. Selesai! Link Instagram kamu sudah tampil rapi dan profesional 😎
+
+---
+
+Kalau kamu mau, saya juga bisa bantu:
+- Desain badge GitHub di README (misal: build status, license, etc.)
+- Buat cover image untuk repo kamu
+- Jadikan README dalam format HTML/PDF untuk dokumentasi tambahan
+
+Tinggal bilang aja 😊
