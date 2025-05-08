@@ -1,7 +1,7 @@
 // BlogDetailScreen.tsx
 import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path sesuai folder Anda
+import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path
 
 const BlogDetailScreen = ({ route }: any) => {
   const { blog } = route.params;

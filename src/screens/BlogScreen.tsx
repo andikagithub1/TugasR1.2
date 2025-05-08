@@ -1,7 +1,7 @@
 // BlogScreen.tsx
 import React, { useContext } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path sesuai folder Anda
+import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path
 
 const BlogScreen = ({ navigation }: any) => {
   const { theme } = useContext(ThemeContext);
@@ -29,11 +29,12 @@ const BlogScreen = ({ navigation }: any) => {
         <TouchableOpacity
           key={blog.id}
           onPress={() => navigation.navigate("BlogDetail", { blog })}
-          style={styles.blogCard}
         >
-          <Image source={blog.image} style={styles.blogImage} />
-          <Text style={styles.blogTitle}>{blog.title}</Text>
-          <Text style={styles.blogDescription}>{blog.description}</Text>
+          <View style={styles.blogCard}>
+            <Image source={blog.image} style={styles.blogImage} />
+            <Text style={styles.blogTitle}>{blog.title}</Text>
+            <Text style={styles.blogDescription}>{blog.description}</Text>
+          </View>
         </TouchableOpacity>
       ))}
     </ScrollView>

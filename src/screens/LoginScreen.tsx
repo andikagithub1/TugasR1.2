@@ -1,12 +1,12 @@
 // LoginScreen.tsx
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path sesuai folder Anda
+import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path
 
 const LoginScreen = ({ navigation }: any) => {
-  const { theme } = useContext(ThemeContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleLogin = () => {
     if (username === 'andika' && password === '12345678') {
@@ -26,6 +26,7 @@ const LoginScreen = ({ navigation }: any) => {
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
+        placeholderTextColor={theme === 'dark' ? '#aaa' : '#ccc'}
       />
       <TextInput
         style={styles.input}
@@ -33,9 +34,17 @@ const LoginScreen = ({ navigation }: any) => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        placeholderTextColor={theme === 'dark' ? '#aaa' : '#ccc'}
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      {/* Tombol Toggle Mode */}
+      <TouchableOpacity style={styles.toggleButton} onPress={toggleTheme}>
+        <Text style={styles.toggleButtonText}>
+          {theme === 'dark' ? 'Switch to White Mode' : 'Switch to Dark Mode'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -64,6 +73,7 @@ const getStyles = (theme: string) =>
       marginBottom: 10,
       paddingHorizontal: 10,
       backgroundColor: theme === 'dark' ? '#333' : '#fff',
+      color: theme === 'dark' ? '#fff' : '#333',
     },
     button: {
       backgroundColor: theme === 'dark' ? '#00bfff' : 'blue',
@@ -73,6 +83,16 @@ const getStyles = (theme: string) =>
     },
     buttonText: {
       color: 'white',
+      fontWeight: 'bold',
+    },
+    toggleButton: {
+      marginTop: 20,
+      padding: 10,
+      backgroundColor: theme === 'dark' ? '#555' : '#ddd',
+      borderRadius: 5,
+    },
+    toggleButtonText: {
+      color: theme === 'dark' ? '#fff' : '#333',
       fontWeight: 'bold',
     },
   });
