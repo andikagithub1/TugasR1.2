@@ -1,6 +1,7 @@
 // BlogScreen.tsx
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Animated, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path
 
 
@@ -13,7 +14,7 @@ const BlogScreen = ({ navigation }: any) => {
     image: any;
     imageUri?: string | null;
   };
-  const [blogs, setBlogs] = useState<BlogType[]>([
+  const defaultBlogs: BlogType[] = [
     {
       id: 1,
       title: "Artikel Pertama",
@@ -28,7 +29,44 @@ const BlogScreen = ({ navigation }: any) => {
       image: require("../assets/images/blog2.jpg"),
       imageUri: null,
     },
-  ]);
+  ];
+  const [blogs, setBlogs] = useState<BlogType[]>(defaultBlogs);
+  // Load blogs from AsyncStorage on mount
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        const json = await AsyncStorage.getItem('blogs');
+        if (json) {
+          // Parse and remap image (karena require tidak bisa disimpan di storage)
+          const arr = JSON.parse(json);
+          setBlogs(arr.map((b: any) => ({
+            ...b,
+            image: defaultImages[b.imageIdx ?? 0],
+          })));
+        }
+      } catch (e) {
+        console.error('Gagal load blogs dari storage:', e);
+      }
+    };
+    loadBlogs();
+  }, []);
+
+  // Save blogs to AsyncStorage setiap kali blogs berubah
+  useEffect(() => {
+    const saveBlogs = async () => {
+      try {
+        // Simpan index gambar, bukan require
+        const blogsToSave = blogs.map(b => {
+          const imageIdx = defaultImages.findIndex(img => img === b.image);
+          return { ...b, image: undefined, imageIdx };
+        });
+        await AsyncStorage.setItem('blogs', JSON.stringify(blogsToSave));
+      } catch (e) {
+        console.error('Gagal simpan blogs ke storage:', e);
+      }
+    };
+    saveBlogs();
+  }, [blogs]);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   // Ganti dengan index gambar default
