@@ -1,12 +1,16 @@
 // HomeScreen.tsx
-import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useContext, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Animated, Easing } from 'react-native';
 import { ThemeContext } from '../contexts/ThemeContexts'; // Sesuaikan path
 
 const HomeScreen = ({ route, navigation }: any) => {
   const { username } = route.params;
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+  // Animasi tombol
+  const scaleBlog = useRef(new Animated.Value(1)).current;
+  const scaleLogout = useRef(new Animated.Value(1)).current;
+  const scaleToggle = useRef(new Animated.Value(1)).current;
   const styles = getStyles(theme);
 
   return (
@@ -19,19 +23,52 @@ const HomeScreen = ({ route, navigation }: any) => {
         <Text style={styles.username}>{username}!</Text>
       </View>
 
-      <TouchableOpacity style={styles.toggleButton} onPress={toggleTheme} activeOpacity={0.8}>
-        <Text style={styles.buttonText}>
-          {theme === 'dark' ? 'Switch to White Mode' : 'Switch to Dark Mode'}
-        </Text>
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ scale: scaleToggle }], width: '100%' }}>
+        <TouchableOpacity
+          style={styles.toggleButton}
+          onPress={() => {
+            Animated.sequence([
+              Animated.timing(scaleToggle, { toValue: 0.95, duration: 80, useNativeDriver: true, easing: Easing.out(Easing.quad) }),
+              Animated.timing(scaleToggle, { toValue: 1, duration: 80, useNativeDriver: true, easing: Easing.out(Easing.quad) })
+            ]).start(toggleTheme);
+          }}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>
+            {theme === 'dark' ? 'Switch to White Mode' : 'Switch to Dark Mode'}
+          </Text>
+        </TouchableOpacity>
+      </Animated.View>
 
-      <TouchableOpacity style={styles.blogButton} onPress={() => navigation.navigate("Blog") } activeOpacity={0.8}>
-        <Text style={styles.buttonText}>Lihat Blog</Text>
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ scale: scaleBlog }], width: '100%' }}>
+        <TouchableOpacity
+          style={styles.blogButton}
+          onPress={() => {
+            Animated.sequence([
+              Animated.timing(scaleBlog, { toValue: 0.95, duration: 80, useNativeDriver: true, easing: Easing.out(Easing.quad) }),
+              Animated.timing(scaleBlog, { toValue: 1, duration: 80, useNativeDriver: true, easing: Easing.out(Easing.quad) })
+            ]).start(() => navigation.navigate("Blog"));
+          }}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>Lihat Blog</Text>
+        </TouchableOpacity>
+      </Animated.View>
 
-      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.replace("Login") } activeOpacity={0.8}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ scale: scaleLogout }], width: '100%' }}>
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={() => {
+            Animated.sequence([
+              Animated.timing(scaleLogout, { toValue: 0.95, duration: 80, useNativeDriver: true, easing: Easing.out(Easing.quad) }),
+              Animated.timing(scaleLogout, { toValue: 1, duration: 80, useNativeDriver: true, easing: Easing.out(Easing.quad) })
+            ]).start(() => navigation.replace("Login"));
+          }}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 };
@@ -47,74 +84,88 @@ const getStyles = (theme: string) =>
     profileCard: {
       alignItems: 'center',
       backgroundColor: theme === 'dark' ? '#23233a' : '#fff',
-      borderRadius: 18,
-      padding: 28,
+      borderRadius: 22,
+      padding: 32,
       marginBottom: 30,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 6 },
-      shadowOpacity: 0.18,
-      shadowRadius: 16,
-      elevation: 8,
+      shadowColor: theme === 'dark' ? '#00bfff' : '#1976d2',
+      shadowOffset: { width: 0, height: 10 },
+      shadowOpacity: 0.13,
+      shadowRadius: 20,
+      elevation: 12,
       width: 320,
+      borderWidth: 1.5,
+      borderColor: theme === 'dark' ? '#23233a' : '#e3e3e3',
     },
     avatarWrapper: {
       backgroundColor: theme === 'dark' ? '#181824' : '#e3e3e3',
       borderRadius: 50,
-      padding: 6,
-      marginBottom: 10,
+      padding: 8,
+      marginBottom: 14,
+      shadowColor: theme === 'dark' ? '#00bfff' : '#1976d2',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.18,
+      shadowRadius: 8,
+      elevation: 4,
     },
     avatar: {
-      width: 64,
-      height: 64,
-      borderRadius: 32,
-      borderWidth: 2,
+      width: 72,
+      height: 72,
+      borderRadius: 36,
+      borderWidth: 2.5,
       borderColor: theme === 'dark' ? '#00bfff' : '#1976d2',
     },
     welcomeText: {
-      fontSize: 18,
+      fontSize: 17,
       fontWeight: '600',
       textAlign: 'center',
       color: theme === 'dark' ? '#fff' : '#333',
       marginBottom: 2,
+      letterSpacing: 0.2,
     },
     username: {
-      fontSize: 22,
+      fontSize: 24,
       fontWeight: 'bold',
       color: theme === 'dark' ? '#00bfff' : '#1976d2',
       marginBottom: 2,
+      letterSpacing: 0.5,
     },
     toggleButton: {
-      backgroundColor: theme === 'dark' ? '#444' : '#e3e3e3',
+      backgroundColor: theme === 'dark' ? '#23233a' : '#e3e3e3',
       paddingVertical: 10,
       paddingHorizontal: 24,
-      borderRadius: 8,
+      borderRadius: 10,
       marginTop: 10,
       marginBottom: 8,
+      borderWidth: 1,
+      borderColor: theme === 'dark' ? '#00bfff' : '#1976d2',
+      alignItems: 'center',
     },
     blogButton: {
       backgroundColor: theme === 'dark' ? '#00ff99' : '#43a047',
       paddingVertical: 12,
       paddingHorizontal: 32,
-      borderRadius: 8,
+      borderRadius: 10,
       marginTop: 10,
       marginBottom: 8,
       shadowColor: '#43a047',
-      shadowOffset: { width: 0, height: 2 },
+      shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.18,
-      shadowRadius: 4,
-      elevation: 2,
+      shadowRadius: 8,
+      elevation: 3,
+      alignItems: 'center',
     },
     logoutButton: {
       backgroundColor: theme === 'dark' ? '#ff5252' : '#e53935',
       paddingVertical: 12,
       paddingHorizontal: 32,
-      borderRadius: 8,
+      borderRadius: 10,
       marginTop: 10,
       shadowColor: '#e53935',
-      shadowOffset: { width: 0, height: 2 },
+      shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.18,
-      shadowRadius: 4,
-      elevation: 2,
+      shadowRadius: 8,
+      elevation: 3,
+      alignItems: 'center',
     },
     buttonText: {
       color: 'white',
